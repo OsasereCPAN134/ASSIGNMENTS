@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Basics</title>
+</head>
+<body>
+    <script>
+        let inventory = {
+            1: { name: "Pants", price: 21.99, quantity: 45 },       
+            2: { name: "Hoodies", price: 28.50, quantity: 66 },
+            3: { name: "Shirts", price: 10.75, quantity: 100 },
+        }; // to populate inventory with initial products
+
+
+        function addProduct() {
+            const id = prompt("Enter product ID:");
+            const name = prompt("Enter product name:");
+            const price = parseFloat(prompt("Enter product price:")); 
+            const quantity = parseInt(prompt("Enter product quantity:"));
+
+            if (inventory[id]) {
+                console.log("Product ID already exists!"); // error handling to ensure product is not already in inventory
+                return;
+            }
+
+            inventory[id] = { name, price, quantity };
+            console.log(`${name} has been added to the inventory.`); // to inform user of addition and prevent repetition
+        }
+
+
+        function removeProduct() {
+            const id = prompt("Enter the ID of the product to remove:");
+            
+            if (inventory[id]) {
+                delete inventory[id];
+                console.log("Product removed successfully."); // to inform user of addition and prevent repetition
+            } else {
+                console.log("Error: Product not in inventory!"); // error message where product ID does not exist
+            }
+        }
+
+
+        function displayInventory() {
+            console.log("Inventory:");
+            for (let id in inventory) {
+                console.log(`ID: ${id}, Name: ${inventory[id].name}, Price: $${inventory[id].price}, Quantity: ${inventory[id].quantity}`);
+            }
+        }
+
+
+        function calculateTotalValue() {
+            let totalValue = 0;
+            for (let id in inventory) {
+                totalValue += inventory[id].price * inventory[id].quantity;
+            }
+            console.log(`Total Inventory Value: $${totalValue}`);
+        }
+
+        function checkLowStock() {
+            let minimum_stock = 55 // to check low stock where items with quantity less than 55 are displayed
+            let lowStockItems = []; // to be populated when items have low stock
+            for (let id in inventory) {
+                const item = inventory[id];
+                if (item.quantity < minimum_stock) {
+                    lowStockItems.push(`${item.name} (ID: ${id}, quantity: ${item.quantity})`);
+                }
+            }
+
+            if (lowStockItems.length > 0) {
+                console.log("There is low stock for the following items:");
+                lowStockItems.forEach(item => console.log(item));
+            } else {
+                console.log("All items have sufficient stock.");
+            }
+        }
+
+
+            // tests for the functions
+        displayInventory()
+        inventory['5'] = { name: 'Knitwear', price: 17.75, quantity: 200 };
+        inventory['4'] = { name: 'Jeans', price: 50.25, quantity: 75 };
+        inventory['6'] = { name: 'Socks', price: 6.50, quantity: 150 };
+        inventory['7'] = { name: 'Jumpers', price: 20.50, quantity: 30 };
+        inventory['8'] = { name: 'Dresses', price: 25.00, quantity: 100 };
+        inventory['9'] = { name: 'Skirts', price: 18.00, quantity: 40 };
+        inventory['10'] = { name: 'Shoes', price: 30.00, quantity: 55 };
+        addProduct()
+        displayInventory()
+        calculateTotalValue()
+        removeProduct('2');
+        displayInventory()
+        calculateTotalValue()
+        checkLowStock()
+    </script>
+
+</body>
+</html>
